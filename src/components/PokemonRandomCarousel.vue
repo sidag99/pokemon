@@ -3,7 +3,7 @@
         <div v-if="!loading" class="carousel">
             <template v-for="pokemon in randomPokemon" :key="pokemon.id">
                 <div class="column">
-                    <pokemon-card :model-value="pokemon"/>
+                    <pokemon-card :model-value="pokemon" @update:pokemon="emits('update:pokemon')"/>
                 </div>
             </template>
         </div>
@@ -27,6 +27,10 @@ const loading = ref<boolean>(true);
 const props = defineProps({
     allPokemon: {type: Object as PropType<Pokemon[]>, required: true}
 })
+const emits = defineEmits<{
+    (e: 'update:pokemon'): void
+}>();
+
 
 onMounted(async () => {
     await fetchRandomPokemon()

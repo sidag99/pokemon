@@ -1,8 +1,10 @@
 <template>
-
     <div class="card gradient-border" :style="backgroundColourStyle">
+        <button class="favourite" type="button" @click="markFavourite">
+            <img v-if="!pokemon.favourite" src="../assets/icons/star_border.svg" height="30" width="30"/>
+            <img v-else src="../assets/icons/star.svg" height="30" width="30"/>
+        </button>
         <div class="heading">{{pokemon.name}}</div>
-<!--        <a><img src="../assets/icons/star_border.svg"/></a>-->
 
         <table class="characteristics gradient-border" style="margin-bottom: 2px" :style="backgroundColourStyle">
             <tr>
@@ -35,6 +37,9 @@ import {Pokemon} from "@/models/Pokemon";
 const props = defineProps({
     modelValue: {type: Object as PropType<Pokemon>, required: true}
 })
+const emits = defineEmits<{
+    (e: 'update:pokemon'): void
+}>();
 
 const pokemon = ref<Pokemon>(props.modelValue);
 const backgroundColourStyle = getRandomBackgroundColour();
@@ -43,6 +48,11 @@ function getRandomBackgroundColour() {
         "backgroundImage": `linear-gradient(45deg, rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}), rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}))`
     }
 }
+function markFavourite(pokemonID: number) {
+    pokemon.value.favourite = !pokemon.value.favourite;
+    emits("update:pokemon")
+}
+
 </script>
 
 <style scoped>

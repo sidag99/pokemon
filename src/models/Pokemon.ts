@@ -4,7 +4,8 @@ export interface Pokemon {
     height: number,
     weight: number,
     sprites: Sprite,
-    types: Type[]
+    types: Type[],
+    favourite?: boolean
 }
 
 export interface Sprite {
