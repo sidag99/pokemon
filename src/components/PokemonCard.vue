@@ -1,8 +1,17 @@
 <template>
-    <div class="card" :style="getRandomBackgroundColour()">
+
+    <div class="card gradient-border" :style="backgroundColourStyle">
         <div class="heading">{{pokemon.name}}</div>
 <!--        <a><img src="../assets/icons/star_border.svg"/></a>-->
-        <table class="characteristics">
+
+        <table class="characteristics gradient-border" style="margin-bottom: 2px" :style="backgroundColourStyle">
+            <tr>
+                <td colspan="2">
+                    <div class="img-holder">
+                        <img :src="pokemon.sprites.front_default" />
+                    </div>
+                </td>
+            </tr>
             <tr>
                 <td>Height:</td>
                 <td class="sub-heading">{{pokemon.height}}</td>
@@ -12,11 +21,8 @@
                 <td class="sub-heading">{{pokemon.weight}}</td>
             </tr>
         </table>
-        <div class="img-holder">
-            <img :src="pokemon.sprites.front_default" />
-        </div>
         <template v-for="type in pokemon.types">
-            <div class="pill">{{type.type.name}} </div>
+            <div class="pill gradient-border sub-heading" :style="backgroundColourStyle">{{type.type.name}} </div>
         </template>
     </div>
 </template>
@@ -31,12 +37,10 @@ const props = defineProps({
 })
 
 const pokemon = ref<Pokemon>(props.modelValue);
-
+const backgroundColourStyle = getRandomBackgroundColour();
 function getRandomBackgroundColour() {
     return  {
-
-        backgroundColor: `hsl(${Math.random()* 360}, 100%, ${(50 + 30 * Math.random())}%)`
-        // backgroundColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 100%)`
+        "backgroundImage": `linear-gradient(45deg, rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}), rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}))`
     }
 }
 </script>
@@ -46,10 +50,9 @@ function getRandomBackgroundColour() {
     margin-top: 5px;
     margin-left: auto;
     margin-right: auto;
-    background-color: white;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 10px;
-    border: 1px rgba(128, 128, 128, 0.40) solid;
+    border: 2px solid transparent;
 }
 
 table, td {
