@@ -1,6 +1,6 @@
 <template>
     <template v-if="!loading">
-        <pokemon-random-carousel v-if="!searchString" :all-pokemon="allPokemon!" @update:pokemon="addPokemonFavouritesToLocalStorage"/>
+        <pokemon-random-carousel v-if="allPokemonLength === filteredPokemonLength" :all-pokemon="allPokemon!" @update:pokemon="addPokemonFavouritesToLocalStorage"/>
         <div style="margin-top: 10px">
             <div v-for="rowNum in totalRows" :key="rowNum" class="carousel" style="margin-top: 10px">
                 <template v-for="pokemon in getPokemonRow(rowNum)" :key="pokemon.id">
@@ -25,13 +25,15 @@ const {getAllPokemon} = usePokemonManager();
 // const {} =
 const props = defineProps({
     searchString: {type: String, required: true},
-    sortValue: {type: String, required: true}
+    sortValue: {type: String, required: true},
+    showOnlyFavourites: {type: Boolean, required: true}
 })
-const rowSize = 6;
+const rowSize = 10;
 const allPokemon = ref<Pokemon[]>();
 const loading = ref<boolean>(true);
 const totalRows = computed(() => filteredPokemonLength.value? Math.ceil(filteredPokemonLength.value!/rowSize) : 0)
 const filteredPokemon = ref<Pokemon[]>();
+const allPokemonLength = computed(() => allPokemon.value? allPokemon.value.length : 0);
 const filteredPokemonLength = computed(() => filteredPokemon.value? filteredPokemon.value.length : 0);
 
 onMounted(async () => {
@@ -58,6 +60,9 @@ async function applySearchFilter(searchValue: string) {
     }
     else {
         filteredPokemon.value = allPokemon.value;
+    }
+    if (props.showOnlyFavourites) {
+        filteredPokemon.value = filteredPokemon.value!.filter(pokemon => pokemon.favourite);
     }
     await applySort();
 }
@@ -104,6 +109,10 @@ watch(() => props.searchString, () => {
 
 watch(() => props.sortValue, () => {
     applySort()
+})
+
+watch(() => props.showOnlyFavourites, () => {
+    applySearchFilter(props.searchString)
 })
 
 function addPokemonFavouritesToLocalStorage() {

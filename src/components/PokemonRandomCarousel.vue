@@ -31,6 +31,7 @@ const emits = defineEmits<{
     (e: 'update:pokemon'): void
 }>();
 
+const randomCardsCount = 10;
 
 onMounted(async () => {
     await fetchRandomPokemon()
@@ -39,7 +40,7 @@ onMounted(async () => {
 
 async function fetchRandomPokemon() {
     loading.value = true;
-    const n: number[] = getNRandomNumbers(5);
+    const n: number[] = getNRandomNumbers(randomCardsCount);
     randomPokemon.value = [];
     for (let i of n) {
         randomPokemon.value.push(props.allPokemon!.find(pokemon => pokemon.id === i)!);

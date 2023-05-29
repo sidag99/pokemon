@@ -1,13 +1,9 @@
 <template>
-    <div>
-        <input type="search" class="search-bar" placeholder="Search using name or type" @input="event => doSearch(event.target.value)">
-    </div>
+    <input type="search" class="search-bar" placeholder="Search using name or type" :value="model" @input="event => doSearch(event.target.value)">
 </template>
 
 <script setup lang="ts">
-import {PropType} from "vue/dist/vue";
-import {Pokemon} from "@/models/Pokemon";
-import {ref} from "vue";
+import { onMounted, ref } from "vue";
 
 const props = defineProps({
     modelValue: {type: String, required: true}
@@ -17,14 +13,28 @@ const emits = defineEmits<{
 }>();
 const model = ref<string>(props.modelValue);
 
+onMounted(() => {
+    if (!model.value || model.value.length === 0) {
+        const storedSearchItem = localStorage.getItem("lastSearch");
+        if (storedSearchItem) {
+            doSearch(storedSearchItem);
+        }
+    }
+})
+
 let delayTimer: number;
 
 function doSearch(searchString: string) {
     clearTimeout(delayTimer);
     model.value = searchString;
     delayTimer = setTimeout(function() {
-        emits('update:modelValue', searchString)
+        emits('update:modelValue', searchString);
+        addLastSearchToStore(searchString);
     }, 1000);
+}
+
+function addLastSearchToStore(searchString: string) {
+    localStorage.setItem("lastSearch", searchString);
 }
 </script>
 

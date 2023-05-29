@@ -1,12 +1,12 @@
 <template>
-    <div class="card gradient-border" :style="backgroundColourStyle">
+    <div class="card gradient-border" :style="pokemon.style">
         <button class="favourite" type="button" @click="markFavourite">
-            <img v-if="!pokemon.favourite" src="../assets/icons/star_border.svg" height="30" width="30"/>
-            <img v-else src="../assets/icons/star.svg" height="30" width="30"/>
+            <img v-if="!pokemon.favourite" src="../assets/icons/star_border.svg" height="24" width="24"/>
+            <img v-else src="../assets/icons/star.svg" height="24" width="24"/>
         </button>
         <div class="heading">{{pokemon.name}}</div>
 
-        <table class="characteristics gradient-border" style="margin-bottom: 2px" :style="backgroundColourStyle">
+        <table class="characteristics gradient-border" style="margin-bottom: 2px" :style="pokemon.style">
             <tr>
                 <td colspan="2">
                     <div class="img-holder">
@@ -24,7 +24,7 @@
             </tr>
         </table>
         <template v-for="type in pokemon.types">
-            <div class="pill gradient-border sub-heading" :style="backgroundColourStyle">{{type.type.name}} </div>
+            <div class="pill gradient-border sub-heading" :style="pokemon.style">{{type.type.name}} </div>
         </template>
     </div>
 </template>
@@ -42,7 +42,11 @@ const emits = defineEmits<{
 }>();
 
 const pokemon = ref<Pokemon>(props.modelValue);
-const backgroundColourStyle = getRandomBackgroundColour();
+onMounted(() => {
+    if (!pokemon.value.style) {
+        pokemon.value.style = getRandomBackgroundColour();
+    }
+})
 function getRandomBackgroundColour() {
     return  {
         "backgroundImage": `linear-gradient(45deg, rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}), rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}))`
