@@ -1,0 +1,91 @@
+.heading {
+    font-size: 20px !important;
+    font-weight: bold !important;
+    text-transform: capitalize;
+    letter-spacing: 3px;
+    font-family: Luminari, fantasy;
+    text-shadow: -1px 1px 1px #ffffff,
+    1px 1px 1px #ffffff,
+    1px -1px 1px #ffffff,
+    -1px -1px 1px #ffffff;
+
+}
+.sub-heading {
+    font-size: 16px !important;
+    font-weight: bold !important;
+
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    border-radius: 5px;
+    padding: 16px;
+    text-align: center;
+    transition: 0.3s;
+}
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.column {
+    float: left;
+    width: 20%;
+    padding: 0 10px;
+}
+
+.carousel {
+    margin: 0 -5px;
+    display: flex;
+}
+
+
+body {
+    font-size: 16px !important;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.imgHolder {
+    width: 100%;
+    height: auto;
+    margin: 3px;
+    padding: 3px;
+}
+
+.pill {
+    background-color: white;
+    border: 1px rgba(17, 17, 17, 0.2) solid;
+    color: black;
+    padding: 5px 10px;
+    text-align: center;
+    display: inline-block;
+    margin: 2px 1px;
+    border-radius: 16px;
+    text-transform: capitalize;
+    font-size: 12px;
+    font-family: fantasy;
+}
+
+.search-bar {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.search-bar::placeholder {
+    text-align: center;
+    font-size: 14px;
+}
+
+.separator {
+    margin-left: -5px;
+    margin-right: -5px;
+    border: 4px rgba(128,128,128,0.4) solid
+}
