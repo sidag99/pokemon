@@ -1,8 +1,6 @@
 <template>
     <div>
-
         <input type="search" class="search-bar" placeholder="Search using name or type" @input="event => doSearch(event.target.value)">
-        {{model}}
     </div>
 </template>
 
