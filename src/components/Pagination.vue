@@ -45,7 +45,7 @@ watch(() => props.totalItems, () => {
 
 <style scoped>
 button.page-link {
-    font-size: 12px;
+    font-size: 0.5vw;
     color: #FF0000;
     background-color: white;
     border: 1px solid #FF0000;
