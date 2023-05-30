@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 
-import {onMounted, PropType, ref} from "vue";
+import { onBeforeUnmount, onMounted, PropType, ref } from "vue";
 import {Pokemon} from "@/models/Pokemon";
 
 const props = defineProps({
@@ -47,6 +47,9 @@ onMounted(() => {
     if (!pokemon.value.style) {
         pokemon.value.style = getRandomBackgroundColour();
     }
+})
+onBeforeUnmount(() => {
+    rotateImage(true);
 })
 const showFront = ref<boolean>(true);
 const mouseHover = ref();
