@@ -2,8 +2,7 @@ import {PokemonApi} from "@/api/pokemon-api";
 import {Pokemon} from "@/models/Pokemon";
 
 export function usePokemonManager() {
-    const totalExistingPokemon = 100;
-    // const totalExistingPokemon = 100;
+    const totalExistingPokemon = 120;
     async function getPokemon(pokemonID: number): Promise<Pokemon> {
         return PokemonApi.fetchPokemon(pokemonID);
     }

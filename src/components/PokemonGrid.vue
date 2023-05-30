@@ -1,17 +1,19 @@
 <template>
-    <template v-if="!loading && mounted">
+    <template v-if="mounted">
         <pokemon-random-carousel v-if="allPokemonLength === filteredPokemonLength" :all-pokemon="allPokemon!" @update:pokemon="addPokemonFavouritesToLocalStorage"/>
-        <div style="margin-top: 10px">
-            <div v-for="rowNum in totalRows" :key="rowNum" class="carousel" style="margin-top: 10px">
-                <template v-for="pokemon in getPokemonRow(rowNum)" :key="pokemon.id">
-                    <div class="column">
-                        <pokemon-card :model-value="pokemon" @update:pokemon="addPokemonFavouritesToLocalStorage"/>
-                    </div>
-                </template>
+        <template v-if="!loading">
+            <pagination :total-items="filteredPokemonLength" v-model="pageNumber" :per-page="perPage"/>
+            <div style="margin-top: 10px">
+                <div v-for="rowNum in totalRows" :key="rowNum" class="carousel" style="margin-top: 10px">
+                    <template v-for="pokemon in getPokemonRow(rowNum)" :key="pokemon.id">
+                        <div class="column"  :id="pokemon.id">
+                            <pokemon-card :model-value="pokemon" @update:pokemon="addPokemonFavouritesToLocalStorage"/>
+                        </div>
+                    </template>
+                </div>
             </div>
-        </div>
+        </template>
     </template>
-
 </template>
 
 <script lang="ts" setup>
@@ -20,22 +22,26 @@ import {Pokemon} from "@/models/Pokemon";
 import {computed, nextTick, onMounted, ref, watch} from "vue";
 import {usePokemonManager} from "@/service/pokemon-manager";
 import PokemonRandomCarousel from "@/components/PokemonRandomCarousel.vue";
+import Pagination from "@/components/Pagination.vue";
 
 const {getAllPokemon} = usePokemonManager();
-// const {} =
 const props = defineProps({
     searchString: {type: String, required: true},
     sortValue: {type: String, required: true},
     showOnlyFavourites: {type: Boolean, required: true}
 })
 const rowSize = 10;
+const perPage = 30;
 const allPokemon = ref<Pokemon[]>();
 const loading = ref<boolean>(true);
 const mounted = ref<boolean>(false);
-const totalRows = computed(() => filteredPokemonLength.value? Math.ceil(filteredPokemonLength.value!/rowSize) : 0)
+const totalRows = computed(() => paginatedPokemonList.value? Math.ceil(paginatedPokemonLength.value!/rowSize) : 0)
 const filteredPokemon = ref<Pokemon[]>();
 const allPokemonLength = computed(() => allPokemon.value? allPokemon.value.length : 0);
 const filteredPokemonLength = computed(() => filteredPokemon.value? filteredPokemon.value.length : 0);
+const paginatedPokemonLength = computed(() => paginatedPokemonList.value? paginatedPokemonList.value.length : 0);
+const paginatedPokemonList = computed(() => filteredPokemon.value?.slice((pageNumber.value - 1)*perPage, pageNumber.value*perPage));
+const pageNumber = ref<number>(1);
 
 onMounted(async () => {
  await fetchAllPokemon();
@@ -51,7 +57,7 @@ async function fetchAllPokemon() {
 }
 
 function getPokemonRow(rowNum: number) {
-    return filteredPokemon.value!.slice((rowNum-1)*rowSize, rowNum*rowSize < filteredPokemonLength.value!? rowNum*rowSize : filteredPokemonLength.value);
+    return paginatedPokemonList.value!.slice((rowNum-1)*rowSize, rowNum*rowSize < filteredPokemonLength.value!? rowNum*rowSize : filteredPokemonLength.value);
 }
 
 async function applySearchFilter(searchValue: string) {
@@ -64,6 +70,7 @@ async function applySearchFilter(searchValue: string) {
     if (props.showOnlyFavourites) {
         filteredPokemon.value = filteredPokemon.value!.filter(pokemon => pokemon.favourite);
     }
+    pageNumber.value = 1;
     await applySort();
 }
 
@@ -115,6 +122,11 @@ watch(() => props.sortValue, () => {
 
 watch(() => props.showOnlyFavourites, () => {
     applySearchFilter(props.searchString)
+})
+
+watch(pageNumber,async () => {
+    loading.value = true;
+    await nextTick(() => loading.value = false)
 })
 
 function addPokemonFavouritesToLocalStorage() {
