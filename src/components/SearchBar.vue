@@ -14,11 +14,9 @@ const emits = defineEmits<{
 const model = ref<string>(props.modelValue);
 
 onMounted(() => {
-    if (!model.value || model.value.length === 0) {
-        const storedSearchItem = localStorage.getItem("lastSearch");
-        if (storedSearchItem) {
-            doSearch(storedSearchItem);
-        }
+    const storedSearchItem = localStorage.getItem("lastSearch");
+    if (storedSearchItem) {
+        doSearch(storedSearchItem);
     }
 })
 
@@ -30,7 +28,7 @@ function doSearch(searchString: string) {
     delayTimer = setTimeout(function() {
         emits('update:modelValue', searchString);
         addLastSearchToStore(searchString);
-    }, 1000);
+    }, 500);
 }
 
 function addLastSearchToStore(searchString: string) {

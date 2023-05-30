@@ -1,5 +1,5 @@
 <template>
-    <template v-if="!loading">
+    <template v-if="!loading && mounted">
         <pokemon-random-carousel v-if="allPokemonLength === filteredPokemonLength" :all-pokemon="allPokemon!" @update:pokemon="addPokemonFavouritesToLocalStorage"/>
         <div style="margin-top: 10px">
             <div v-for="rowNum in totalRows" :key="rowNum" class="carousel" style="margin-top: 10px">
@@ -31,6 +31,7 @@ const props = defineProps({
 const rowSize = 10;
 const allPokemon = ref<Pokemon[]>();
 const loading = ref<boolean>(true);
+const mounted = ref<boolean>(false);
 const totalRows = computed(() => filteredPokemonLength.value? Math.ceil(filteredPokemonLength.value!/rowSize) : 0)
 const filteredPokemon = ref<Pokemon[]>();
 const allPokemonLength = computed(() => allPokemon.value? allPokemon.value.length : 0);
@@ -40,14 +41,13 @@ onMounted(async () => {
  await fetchAllPokemon();
 })
 async function fetchAllPokemon() {
-    loading.value = true;
     allPokemon.value = await getAllPokemon();
     const favourites: number[] = localStorage.getItem("favourites")? (localStorage.getItem("favourites") as string).split(',').map(num => parseInt(num, 10)) : [];
     if (favourites.length) {
         allPokemon.value!.forEach(pokemon => favourites.some(num => num === pokemon.id) ? pokemon.favourite = true : null);
     }
     await applySearchFilter(props.searchString);
-    loading.value = false;
+    mounted.value = true;
 }
 
 function getPokemonRow(rowNum: number) {
@@ -69,7 +69,9 @@ async function applySearchFilter(searchValue: string) {
 
 async function applySort() {
     loading.value = true;
-    filteredPokemon.value = doSort(props.sortValue)!;
+    if (filteredPokemonLength.value > 0) {
+        filteredPokemon.value = doSort(props.sortValue)!;
+    }
     await nextTick(() => loading.value = false)
 }
 

@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 const props = defineProps({
     modelValue: {type: String, required: true}
@@ -14,7 +14,12 @@ const emits = defineEmits<{
     (e: 'update:modelValue', value: string): void
 }>();
 const model = ref<string>(props.modelValue);
-
+onMounted(() => {
+    const storedSearchItem = localStorage.getItem("lastSortSelection");
+    if (storedSearchItem) {
+        model.value = storedSearchItem;
+    }
+})
 let delayTimer: number;
 const pokemonSortOptions = [
     {label: 'Sort Order: None', value: 'none'},
@@ -31,9 +36,14 @@ watch(model, (n) => {
     {
         clearTimeout(delayTimer);
         model.value = n;
-        emits('update:modelValue', n)
+        emits('update:modelValue', n);
+        addLastSortOrderToStore(n)
     }
 })
+
+function addLastSortOrderToStore(sortValue: string) {
+    localStorage.setItem("lastSortSelection", sortValue);
+}
 </script>
 
 <style scoped>
