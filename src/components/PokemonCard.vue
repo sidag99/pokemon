@@ -1,5 +1,5 @@
 <template>
-    <div class="card gradient-border" :style="pokemon.style">
+    <div class="card gradient-border" :style="pokemon.style" @mouseover="rotateImage(false)" @mouseleave="rotateImage(true)">
         <button class="favourite" type="button" @click="markFavourite">
             <img v-if="!pokemon.favourite" src="../assets/icons/star_border.svg" height="20" width="20"/>
             <img v-else src="../assets/icons/star.svg" height="20" width="20"/>
@@ -10,7 +10,8 @@
             <tr>
                 <td colspan="2">
                     <div class="img-holder">
-                        <img class="avatar" :src="pokemon.sprites.front_default" />
+                        <img v-if="showFront" class="avatar" :src="pokemon.sprites.front_default" />
+                        <img v-else class="avatar" :src="pokemon.sprites.back_default" />
                     </div>
                 </td>
             </tr>
@@ -47,6 +48,21 @@ onMounted(() => {
         pokemon.value.style = getRandomBackgroundColour();
     }
 })
+const showFront = ref<boolean>(true);
+const mouseHover = ref();
+function rotateImage(endRotate = false) {
+    if (endRotate && mouseHover.value) {
+        clearInterval(mouseHover.value);
+        mouseHover.value = undefined;
+        showFront.value = true;
+        return;
+    }
+    if (!mouseHover.value) {
+        mouseHover.value = setInterval(() => {
+            showFront.value = !showFront.value;
+        }, 500);
+    }
+}
 function getRandomBackgroundColour() {
     return  {
         "backgroundImage": `linear-gradient(45deg, rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}), rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}), rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}))`

@@ -10,7 +10,8 @@ export interface Pokemon {
 }
 
 export interface Sprite {
-    front_default: string
+    front_default: string,
+    back_default: string
 }
 
 export interface Type {
