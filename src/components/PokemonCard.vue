@@ -111,14 +111,13 @@ td {
     background-color: black;
     font-weight: bold;
     color: white;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 15px;
+    text-align: start;
+    padding: 0;
+    border-radius: 0.75vw;
     font-size: 0.5vw;
-    opacity: 0.9;
+    opacity: 0.8;
     bottom: 1%;
-    left: 2%;
-    /*margin-left: -55px;*/
+    left: 1%;
     position: absolute;
     z-index: 1;
 }
