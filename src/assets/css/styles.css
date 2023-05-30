@@ -21,9 +21,9 @@
 .card {
     text-align: center;
     transition: 0.5s;
-    border-radius: 15px;
+    border-radius: 1vw;
     padding: 6px 0px;
-    border: 5px solid transparent;
+    border: 0.3vw solid transparent;
     position: relative;
 }
 
@@ -63,13 +63,13 @@
 }
 
 .pill {
-    border: 1px solid transparent;
+    border: 0.1vw solid transparent;
     color: black;
     padding: 3px 4px;
     text-align: center;
     display: inline-block;
     margin: 0px 1px;
-    border-radius: 14px;
+    border-radius: 1vw;
     text-transform: capitalize;
     font-family: fantasy;
 }
@@ -122,5 +122,5 @@
     border-radius: 10px;
     padding: 0;
     max-width: 2vw;
-    border: 2px solid transparent;
+    border: 0.15vw solid transparent;
 }
