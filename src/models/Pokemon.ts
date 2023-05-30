@@ -9,7 +9,6 @@ export interface Pokemon {
     style?: any,
     abilities: Ability[],
     moves: Move[],
-    species: {name: string}
 }
 
 export interface Sprite {

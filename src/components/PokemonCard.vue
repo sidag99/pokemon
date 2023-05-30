@@ -6,13 +6,9 @@
                     <td>Abilities: </td>
                     <td>{{abilities.length > 5? `${abilities.slice(0,5).join(', ')}, (${abilities.slice(5, abilities.length).length} more)` : abilities.slice(0,5).join(', ')}}</td>
                 </div>
-                <div>
+                <div style="border-top: 1px solid white;">
                     <td>Moves: </td>
                     <td>{{moves.length > 5? `${moves.slice(0,5).join(', ')}, (${moves.slice(5, moves.length).length} more)` : moves.slice(0,5).join(', ')}}</td>
-                </div>
-                <div>
-                    <td>Species: </td>
-                    <td class="">{{pokemon.species.name}}</td>
                 </div>
             </table>
         </div>
@@ -115,29 +111,19 @@ td {
     padding: 0;
     border-radius: 0.75vw;
     font-size: 0.5vw;
-    opacity: 0.8;
+    opacity: 0;
     bottom: 1%;
     left: 1%;
     position: absolute;
     z-index: 1;
+    transition: 0.3s opacity ease;
 }
 
 .tooltip:hover .tooltip-text {
     visibility: visible;
+    opacity: 0.8;
 }
 .tooltip-text td {
     text-transform: capitalize;
-}
-.tooltip-text div:first-child {
-    border: none;
-}
-
-.tooltip-text div:last-child {
-    border: none;
-}
-
-.tooltip-text div {
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
 }
 </style>
