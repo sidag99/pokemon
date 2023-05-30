@@ -82,6 +82,7 @@
     transition: 0.1s;
     outline: none;
     font-size: 1vw;
+    height: 40px;
     border: 1px solid #CC0000;
 }
 .search-bar::placeholder {
