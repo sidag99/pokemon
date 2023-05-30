@@ -30,6 +30,7 @@ const showFavourites = ref<boolean> (false);
     text-align: center;
     background-color: white;
     border-radius: 5px;
+    font-size: 0.7vw;
     border: 1px solid #3B4CCA;
 }
 

@@ -1,10 +1,10 @@
 <template>
   <div class="pagination">
-    <button type="button" class="page-link" v-if="page != 1" @click="page = 1"> &lt;&lt; </button>
-    <button type="button" class="page-link" v-if="page != 1" @click="page--"> &lt; </button>
-    <button type="button" class="page-link" :class="page === pageNumber? 'selected-page' : ''" v-for="pageNumber in pages.slice(page-5 > 0? page - 5 : 0, page+5)" @click="page = pageNumber"> {{pageNumber}} </button>
-    <button type="button" @click="page++" v-if="page < pages.length" class="page-link"> > </button>
-    <button type="button" @click="page = pages[pages.length-1]" v-if="page < pages.length" class="page-link"> >> </button>
+    <button type="button" class="page-link" :class="page === 1? 'disabled' : ''" :disabled="page === 1" @click="page = 1"> &lt;&lt; </button>
+    <button type="button" class="page-link" :class="page === 1? 'disabled' : ''" :disabled="page === 1" @click="page--"> &lt; </button>
+    <button type="button" class="page-link" :class="page === pageNumber? 'selected-page' : ''" v-for="pageNumber in pages.slice(page-1, page+5)" @click="page = pageNumber"> {{pageNumber}} </button>
+    <button type="button" :class="page >= pages.length? 'disabled' : ''" :disabled="page >= pages.length" @click="page++" class="page-link"> > </button>
+    <button type="button" :class="page >= pages.length? 'disabled' : ''" :disabled="page >= pages.length" @click="page = pages[pages.length-1]" class="page-link"> >> </button>
   </div>
 </template>
 
@@ -62,5 +62,14 @@ button.page-link:hover {
 
 .selected-page {
     background-color: rgba(255, 0, 0, 0.4) !important;
+}
+
+.disabled {
+    cursor: not-allowed !important;
+    background-color: rgba(128, 128, 128, 0.2) !important;
+    border: 1px solid rgba(255, 0, 0, 0.2) !important;
+}
+.pagination {
+    text-align: right;
 }
 </style>

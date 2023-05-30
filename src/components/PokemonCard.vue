@@ -1,8 +1,8 @@
 <template>
     <div class="card gradient-border" :style="pokemon.style">
         <button class="favourite" type="button" @click="markFavourite">
-            <img v-if="!pokemon.favourite" src="../assets/icons/star_border.svg" height="24" width="24"/>
-            <img v-else src="../assets/icons/star.svg" height="24" width="24"/>
+            <img v-if="!pokemon.favourite" src="../assets/icons/star_border.svg" height="20" width="20"/>
+            <img v-else src="../assets/icons/star.svg" height="20" width="20"/>
         </button>
         <div class="heading">{{pokemon.name}}</div>
 
@@ -10,17 +10,17 @@
             <tr>
                 <td colspan="2">
                     <div class="img-holder">
-                        <img :src="pokemon.sprites.front_default" />
+                        <img class="avatar" :src="pokemon.sprites.front_default" />
                     </div>
                 </td>
             </tr>
             <tr>
-                <td>Height:</td>
-                <td class="sub-heading">{{pokemon.height}}</td>
+                <td class="sub-heading">Height:</td>
+                <td class="sub-heading bold">{{pokemon.height}}</td>
             </tr>
             <tr>
-                <td>Weight: </td>
-                <td class="sub-heading">{{pokemon.weight}}</td>
+                <td class="sub-heading">Weight: </td>
+                <td class="sub-heading bold">{{pokemon.weight}}</td>
             </tr>
         </table>
         <template v-for="type in pokemon.types">
@@ -60,16 +60,10 @@ function markFavourite(pokemonID: number) {
 </script>
 
 <style scoped>
-.characteristics {
-    margin-top: 5px;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 10px;
-    padding: 10px;
-    border: 2px solid transparent;
-}
-
-table, td {
+table {
     padding: 5px;
+}
+td {
+    padding: 2px;
 }
 </style>
