@@ -6,7 +6,10 @@ export interface Pokemon {
     sprites: Sprite,
     types: Type[],
     favourite?: boolean,
-    style?: any
+    style?: any,
+    abilities: Ability[],
+    moves: Move[],
+    species: {name: string}
 }
 
 export interface Sprite {
@@ -16,6 +19,16 @@ export interface Sprite {
 
 export interface Type {
     type: {
+        name: string,
+    }
+}
+export interface Ability {
+    ability: {
+        name: string,
+    }
+}
+export interface Move {
+    move: {
         name: string,
     }
 }

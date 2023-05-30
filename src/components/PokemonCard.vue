@@ -1,5 +1,21 @@
 <template>
-    <div class="card gradient-border" :style="pokemon.style" @mouseover="rotateImage(false)" @mouseleave="rotateImage(true)">
+    <div class="card gradient-border tooltip" :style="pokemon.style" @mouseover="rotateImage(false)" @mouseleave="rotateImage(true)">
+        <div class="tooltip-text">
+            <table>
+                <div >
+                    <td>Abilities: </td>
+                    <td>{{abilities.length > 5? `${abilities.slice(0,5).join(', ')}, (${abilities.slice(5, abilities.length).length} more)` : abilities.slice(0,5).join(', ')}}</td>
+                </div>
+                <div>
+                    <td>Moves: </td>
+                    <td>{{moves.length > 5? `${moves.slice(0,5).join(', ')}, (${moves.slice(5, moves.length).length} more)` : moves.slice(0,5).join(', ')}}</td>
+                </div>
+                <div>
+                    <td>Species: </td>
+                    <td class="">{{pokemon.species.name}}</td>
+                </div>
+            </table>
+        </div>
         <button class="favourite" type="button" @click="markFavourite">
             <img v-if="!pokemon.favourite" src="../assets/icons/star_border.svg" height="20" width="20"/>
             <img v-else src="../assets/icons/star.svg" height="20" width="20"/>
@@ -32,7 +48,7 @@
 
 <script lang="ts" setup>
 
-import { onBeforeUnmount, onMounted, PropType, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, PropType, ref } from "vue";
 import {Pokemon} from "@/models/Pokemon";
 
 const props = defineProps({
@@ -76,6 +92,8 @@ function markFavourite(pokemonID: number) {
     emits("update:pokemon")
 }
 
+const moves = computed(() => pokemon.value.moves.map(move => move.move.name))
+const abilities = computed(() => pokemon.value.abilities.map(ability => ability.ability.name))
 </script>
 
 <style scoped>
@@ -84,5 +102,43 @@ table {
 }
 td {
     padding: 2px;
+}
+
+/* Tooltip text */
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 8.5vw;
+    background-color: black;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 15px;
+    font-size: 0.5vw;
+    opacity: 0.9;
+    bottom: 1%;
+    left: 2%;
+    /*margin-left: -55px;*/
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+}
+.tooltip-text td {
+    text-transform: capitalize;
+}
+.tooltip-text div:first-child {
+    border: none;
+}
+
+.tooltip-text div:last-child {
+    border: none;
+}
+
+.tooltip-text div {
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
 }
 </style>

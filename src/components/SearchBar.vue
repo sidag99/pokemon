@@ -1,5 +1,5 @@
 <template>
-    <input type="search" class="search-bar" placeholder="Search using name or type" :value="model" @input="event => doSearch(event.target.value)">
+    <input type="search" class="search-bar" placeholder="Search using Name or Type" :value="model" @input="event => doSearch(event.target.value)">
 </template>
 
 <script setup lang="ts">
