@@ -2,14 +2,14 @@
     <div class="card gradient-border tooltip" :style="pokemon.style" @mouseover="rotateImage(false)" @mouseleave="rotateImage(true)">
         <div class="tooltip-text">
             <table>
-                <div >
+                <tr>
                     <td>Abilities: </td>
                     <td>{{abilities.length > 5? `${abilities.slice(0,5).join(', ')}, (${abilities.slice(5, abilities.length).length} more)` : abilities.slice(0,5).join(', ')}}</td>
-                </div>
-                <div style="border-top: 1px solid white;">
-                    <td>Moves: </td>
-                    <td>{{moves.length > 5? `${moves.slice(0,5).join(', ')}, (${moves.slice(5, moves.length).length} more)` : moves.slice(0,5).join(', ')}}</td>
-                </div>
+                </tr>
+                <tr>
+                    <td style="border-top: 1px solid white;">Moves: </td>
+                    <td style="border-top: 1px solid white;">{{moves.length > 5? `${moves.slice(0,5).join(', ')}, (${moves.slice(5, moves.length).length} more)` : moves.slice(0,5).join(', ')}}</td>
+                </tr>
             </table>
         </div>
         <button class="favourite" type="button" @click="markFavourite">
