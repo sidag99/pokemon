@@ -58,7 +58,7 @@
 .img-holder {
     width: 100%;
     height: auto;
-    min-height: 4.4vw;
+    height: auto;
     padding: 3px;
 }
 

@@ -10,8 +10,8 @@
             <tr>
                 <td colspan="2">
                     <div class="img-holder">
-                        <img v-if="showFront" class="avatar" :src="pokemon.sprites.front_default" />
-                        <img v-else class="avatar" :src="pokemon.sprites.back_default" />
+                        <img v-show="showFront" class="avatar" :src="pokemon.sprites.front_default" />
+                        <img v-show="!showFront" class="avatar" :src="pokemon.sprites.back_default" />
                     </div>
                 </td>
             </tr>
